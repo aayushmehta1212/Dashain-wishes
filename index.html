@@ -1,0 +1,363 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>✨ Festival Greetings ✨</title>
+    <style>
+        body {
+            font-family: 'Noto Sans Devanagari', 'Poppins', Arial, sans-serif;
+            margin: 0;
+            padding: 20px;
+            text-align: center;
+            background: linear-gradient(135deg, #800000, #FF8C00, #FFD700);
+            background-attachment: fixed;
+            color: #fff;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            overflow-x: hidden;
+        }
+
+        .container {
+            background-color: rgba(255, 228, 196, 0.93); /* Bisque, slightly more opaque */
+            padding: 30px 35px;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3), inset 0 0 10px rgba(255,215,0,0.5);
+            max-width: 600px;
+            width: 90%;
+            border: 3px solid #FFBF00;
+            color: #5D4037;
+            position: relative;
+            z-index: 10;
+        }
+
+        img.animated-image {
+            max-width: 100%;
+            height: auto;
+            border-radius: 15px;
+            margin-bottom: 25px;
+            box-shadow: 0 8px 16px rgba(0,0,0,0.2);
+            border: 4px solid #DAA520;
+        }
+
+        #timer {
+            font-size: 1.35em;
+            color: #BF360C;
+            background: linear-gradient(135deg, #FFF9C4, #FFECB3);
+            padding: 15px 20px;
+            border-radius: 12px;
+            margin-bottom: 30px;
+            text-align: center;
+            white-space: nowrap;
+            overflow-x: auto;
+            border: 2px solid #FFA726;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
+
+        #timer > div { display: inline-block; margin: 0 8px; padding: 0; }
+        #timer strong { font-size: 1.15em; font-weight: 700; }
+        #timer span { display: inline; font-size: 0.6em; color: #8D6E63; margin-left: 4px; font-weight: 600;}
+
+        .input-section {
+            margin-top: 30px;
+            padding: 25px;
+            background-color: rgba(255, 204, 128, 0.88);
+            border-radius: 15px;
+            border: 1px solid #FFB74D;
+        }
+        .input-section p:first-child { /* "नीचे अपना नाम लिखें..." */
+            font-size: 1.1em;
+            margin-bottom: 15px;
+        }
+
+        #userName {
+            padding: 14px;
+            width: calc(100% - 30px);
+            max-width: 350px;
+            border: 2px solid #FFB74D;
+            border-radius: 8px;
+            margin-bottom: 20px; /* Increased margin */
+            box-sizing: border-box;
+            font-family: 'Noto Sans Devanagari', Arial, sans-serif;
+            background-color: #FFFDE7;
+            font-size: 1em;
+        }
+
+        button#generateAndShareButton {
+            padding: 12px 22px; /* Adjusted padding */
+            background: #25D366; /* WhatsApp Green */
+            color: white;
+            border: none;
+            border-radius: 25px; /* More rounded for WhatsApp style */
+            cursor: pointer;
+            font-size: 1.1em;
+            font-weight: bold;
+            transition: all 0.25s ease-in-out;
+            font-family: 'Poppins', 'Noto Sans Devanagari', sans-serif; /* Poppins first for English */
+            box-shadow: 0 4px 8px rgba(0,0,0,0.15);
+            margin-bottom: 10px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            text-decoration: none; /* In case it's wrapped in <a> later */
+        }
+        button#generateAndShareButton svg {
+            width: 22px; /* Slightly smaller for balance */
+            height: 22px;
+            margin-right: 10px;
+            fill: white;
+        }
+
+        button#generateAndShareButton:hover {
+            background: #1DAE54; /* Darker WhatsApp Green */
+            transform: translateY(-2px) scale(1.03);
+            box-shadow: 0 6px 12px rgba(0,0,0,0.2);
+        }
+        button#generateAndShareButton:active {
+            transform: translateY(0px) scale(1);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.15);
+        }
+
+        #generatedLinkContainer {
+            margin-top: 20px;
+            padding: 15px;
+            background-color: #FFF59D;
+            color: #5D4037;
+            border-radius: 8px;
+            word-wrap: break-word;
+            border: 1px solid #FFEE58;
+        }
+        #generatedLinkContainer p:first-child { font-size: 0.95em; } /* "शेयरिंग समर्थित नहीं..." */
+
+
+        #generatedLinkContainer a { color: #D84315; text-decoration: none; font-weight: bold; }
+        #generatedLinkContainer a:hover { text-decoration: underline; color: #BF360C; }
+        #generatedLinkContainer button {
+            margin-top:12px;
+            background: linear-gradient(135deg, #FFA726, #FB8C00);
+            color: white;
+            font-weight: bold;
+            border:none; border-radius: 6px; padding: 10px 15px;
+            box-shadow: 0 3px 6px rgba(0,0,0,0.15);
+        }
+        #generatedLinkContainer button:hover { background: linear-gradient(135deg, #FB8C00, #F57C00); transform: translateY(-1px); }
+
+
+        .welcome-message {
+            font-size: 2em;
+            font-weight: 700;
+            color: #8B0000;
+            margin-bottom: 25px;
+            padding: 20px;
+            background: linear-gradient(to bottom, #FFDEAD, #FFDAB9);
+            border: 3px solid #FFBF00;
+            border-radius: 15px;
+            box-shadow: 0 6px 15px rgba(0,0,0,0.15), inset 0 0 8px rgba(255,255,255,0.3);
+            text-shadow: 1px 1px 2px rgba(255,255,255,0.7);
+        }
+
+        .sender-name-animated { display: inline-block; color: #C62828; animation: pulseAndColor 1.8s infinite; }
+        .festival-name-display { color: #E65100; }
+
+        @keyframes pulseAndColor {
+            0% { transform: scale(1); opacity: 0.7; color: #C62828;}
+            50% { transform: scale(1.15); opacity: 1; color: #F44336; }
+            100% { transform: scale(1); opacity: 0.7; color: #C62828;}
+        }
+        
+        #statusMessage {
+            font-weight: bold;
+            margin-top: 12px;
+            min-height: 1.3em;
+            font-size: 0.95em;
+            color: #FFEB3B;
+        }
+        #statusMessage.success { color: #AED581; }
+        #statusMessage.error { color: #EF9A9A; }
+        #statusMessage.warning { color: #FFB74D; }
+
+
+    </style>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Devanagari:wght@400;600;700&family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.3/dist/confetti.browser.min.js"></script>
+</head>
+<body>
+
+    <div class="container">
+        <div id="welcomeMessage" class="welcome-message" style="display:none;">
+            <!-- This message is still in Hindi, you might want to change it if the sender is English -->
+            <span id="festivalNameDisplay" class="festival-name-display"></span> की शुभकामनाएँ, <span id="senderNameDisplay" class="sender-name-animated"></span> की ओर से!
+        </div>
+
+        <img src="9131ed7b26b9567be8bf7d082f81fe90.jpg" alt="Festival Animation" class="animated-image">
+
+        <div id="timer">
+            <!-- Timer units are still in Hindi, change if needed -->
+            <div><strong id="days">00</strong><span>दिन</span></div>
+            <div><strong id="hours">00</strong><span>घंटे</span></div>
+            <div><strong id="minutes">00</strong><span>मिनट</span></div>
+            <div><strong id="seconds">00</strong><span>सेकंड</span></div>
+        </div>
+
+        <div class="input-section">
+            <p>Enter your name below and send wishes to your friends:</p>
+            <input type="text" id="userName" placeholder="Enter Your Name Here">
+            <button id="generateAndShareButton" onclick="generateAndShareLink()">
+                <svg viewBox="0 0 24 24" aria-hidden="true">
+                    <!-- Cleaned up WhatsApp SVG -->
+                    <path d="M12.04 2C6.58 2 2.12 6.46 2.12 11.92C2.12 13.68 2.61 15.36 3.48 16.82L2 22l5.3-1.44C8.69 21.33 10.33 21.8 12.04 21.8H12c5.46 0 9.92-4.46 9.92-9.92C21.92 6.46 17.5 2 12.04 2M12 3.67c4.53 0 8.25 3.72 8.25 8.25c0 4.53-3.72 8.25-8.25 8.25h-.04c-1.55 0-3.05-.45-4.33-1.25L4.37 20.1l1.4-3.95C4.9 14.9 4.45 13.44 4.45 11.92c0-4.53 3.72-8.25 8.25-8.25M17.29 14.46c-.16-.28-.58-.45-.84-.53s-.52-.08-.75.08c-.23.16-.38.38-.53.53c-.16.16-.3.23-.45.16c-.16-.08-1.03-.38-1.95-1.17c-.72-.62-1.2-1.38-1.28-1.53c-.08-.16-.01-.23.08-.3s.23-.23.3-.3c.08-.08.16-.16.23-.23s.08-.16.04-.3c-.04-.16-.23-.53-.3-.71c-.08-.16-.16-.18-.23-.18s-.23-.01-.3-.01s-.23.08-.38.23c-.16.16-.53.53-.53 1.25s.53 1.45.62 1.53c.08.08 1.03 1.59 2.53 2.23c1.5 0.62 1.88 0.53 2.23 0.45c.3-.08.53-.38.62-.53c.08-.16.08-.23.04-.3z"></path>
+                </svg>
+                <span>Share on WhatsApp</span>
+            </button>
+            <p id="statusMessage"></p>
+
+            <div id="generatedLinkContainer" style="display:none;">
+                <p>Direct sharing not supported? Copy and share this link:</p>
+                <a id="shareableLink" href="#" target="_blank"></a>
+                <br><br>
+                <button onclick="copyLink()">Copy Link</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // --- Timer Configuration ---
+        const festivalTargetDate = new Date(2025, 8, 22, 0, 0, 0).getTime(); 
+        const timerInterval = setInterval(function() {
+            const now = new Date().getTime();
+            const distance = festivalTargetDate - now;
+            const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+            const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+            const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+            document.getElementById("days").innerText = String(days).padStart(2, '0');
+            document.getElementById("hours").innerText = String(hours).padStart(2, '0');
+            document.getElementById("minutes").innerText = String(minutes).padStart(2, '0');
+            document.getElementById("seconds").innerText = String(seconds).padStart(2, '0');
+
+            if (distance < 0) {
+                clearInterval(timerInterval);
+                document.getElementById("timer").innerHTML = "<strong>✨ Happy Festival! ✨</strong>"; // English
+            }
+        }, 1000);
+
+        // --- Welcome Message and Firecrackers ---
+        window.onload = function() {
+            const urlParams = new URLSearchParams(window.location.search);
+            const senderName = urlParams.get('sender');
+            const festivalNameParam = urlParams.get('festival'); // "festival" is a generic term
+
+            if (senderName && festivalNameParam) {
+                const decodedSenderName = decodeURIComponent(senderName);
+                const decodedFestivalName = decodeURIComponent(festivalNameParam);
+
+                // If you want the welcome message in English:
+                const welcomeMsgElement = document.getElementById("welcomeMessage");
+                // You might want to make the welcome message more generic or configurable if festival name varies
+                welcomeMsgElement.innerHTML = `<span class="festival-name-display">Happy ${decodedFestivalName}</span> from <span id="senderNameDisplay" class="sender-name-animated">${decodedSenderName}</span>!`;
+                welcomeMsgElement.style.display = "block";
+                document.querySelector('.animated-image').style.marginTop = "20px";
+
+
+                if (typeof confetti === 'function') {
+                    const duration = 5 * 1000;
+                    const animationEnd = Date.now() + duration;
+                    const festiveColors = ['#FFD700', '#FF8C00', '#FF0000', '#800000', '#FFA500', '#FF4500', '#DC143C'];
+                    const defaults = { startVelocity: 40, spread: 360, ticks: 100, zIndex: 1001, particleCount: 150, gravity: 0.7, drift: randomInRange(-0.8, 0.8), colors: festiveColors };
+                    function randomInRange(min, max) { return Math.random() * (max - min) + min; }
+                    const interval = setInterval(function() {
+                        const timeLeft = animationEnd - Date.now();
+                        if (timeLeft <= 0) return clearInterval(interval);
+                        const particleCount = 150 * (timeLeft / duration);
+                        confetti(Object.assign({}, defaults, { particleCount, origin: { x: randomInRange(0.1, 0.3), y: Math.random() - 0.2 } }));
+                        confetti(Object.assign({}, defaults, { particleCount, origin: { x: randomInRange(0.7, 0.9), y: Math.random() - 0.2 } }));
+                        if (Math.random() > 0.7) { confetti(Object.assign({}, defaults, { particleCount: 250, spread: 120, origin: { x: 0.5, y: 0.3 } })); }
+                    }, 350);
+                    confetti({ particleCount: 350, spread: 180, origin: { y: 0.5, x: 0.5 }, zIndex:1001, colors: festiveColors, gravity: 0.6, scalar: 1.2 });
+                    setTimeout(() => confetti({ particleCount: 200, spread: 100, origin: { x: randomInRange(0.2, 0.8), y: 0.4 }, zIndex:1001, colors: festiveColors, scalar:1.1 }), 1000);
+                }
+            } else {
+                document.querySelector('.animated-image').style.marginTop = "0px";
+            }
+        };
+
+        function displayStatusMessage(message, type = 'info', duration = 3000) {
+            const statusMsgElement = document.getElementById("statusMessage");
+            statusMsgElement.textContent = message;
+            statusMsgElement.className = '';
+            if (type === 'success') statusMsgElement.classList.add('success');
+            else if (type === 'error') statusMsgElement.classList.add('error');
+            else if (type === 'warning') statusMsgElement.classList.add('warning');
+            if (duration > 0) {
+                setTimeout(() => { statusMsgElement.textContent = ""; statusMsgElement.className = ''; }, duration);
+            }
+        }
+
+        function generateAndShareLink() {
+            const userNameInput = document.getElementById("userName");
+            const userName = userNameInput.value.trim();
+
+            if (userName === "") {
+                alert("Please enter your name!"); // English
+                userNameInput.focus();
+                return;
+            }
+
+            // Default festival name if you want to keep it dynamic via URL or set a default
+            const currentFestivalName = "Festival"; // Or "Diwali", "Dashain", etc.
+            const baseUrl = window.location.origin + window.location.pathname;
+            const shareUrl = `${baseUrl}?sender=${encodeURIComponent(userName)}&festival=${encodeURIComponent(currentFestivalName)}`;
+
+            const shareData = {
+                title: `✨ ${currentFestivalName} Greetings from ${userName}! ✨`, // English
+                text: `Warm ${currentFestivalName} wishes from ${userName}! Check out this special greeting and send yours too:`, // English
+                url: shareUrl,
+            };
+
+            if (navigator.share) {
+                navigator.share(shareData)
+                .then(() => {
+                    displayStatusMessage("Greetings shared successfully!", "success"); // English
+                    document.getElementById("generatedLinkContainer").style.display = "none";
+                })
+                .catch((error) => {
+                    console.error('Error sharing:', error);
+                    if (error.name !== 'AbortError') {
+                        displayStatusMessage("Error sharing. Please copy the link below.", "error"); // English
+                    } else {
+                        displayStatusMessage("Sharing cancelled.", "warning", 4000); // English
+                    }
+                    displayFallbackLink(shareUrl);
+                });
+            } else {
+                displayStatusMessage("Direct sharing not supported by your browser. Please copy the link below.", "warning", 5000); // English
+                displayFallbackLink(shareUrl);
+            }
+        }
+
+        function displayFallbackLink(url) {
+            const linkElement = document.getElementById("shareableLink");
+            linkElement.href = url;
+            linkElement.textContent = url;
+            document.getElementById("generatedLinkContainer").style.display = "block";
+        }
+
+        function copyLink() {
+            const linkElement = document.getElementById("shareableLink");
+            const linkToCopy = linkElement.href;
+
+            navigator.clipboard.writeText(linkToCopy).then(() => {
+                displayStatusMessage("Link copied to clipboard!", "success"); // English
+            }).catch(err => {
+                console.error('Error copying link: ', err);
+                displayStatusMessage("Failed to copy link.", "error"); // English
+            });
+        }
+    </script>
+
+</body>
+</html>
